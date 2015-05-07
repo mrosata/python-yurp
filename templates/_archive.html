@@ -1,0 +1,78 @@
+{% extends "basic-layout.html" %}
+
+
+    {% block aside %}
+
+            <!-- #newLabelName -->
+            <form class="form" id="createCategoryForm" method="POST" action="{{ url_for('create_category') }}">
+                <p>
+                    Create a category:
+                </p>
+                <div class="form-group">
+                    <input type="text" name="newCategory" id="newCategory" class="form-control" placeholder="New Category Name"/>
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-danger">Add Category</button>
+                </div>
+            </form>
+
+        {% if categories %}
+
+            <p class="lead">Categories</p>
+            <div class="list-group">
+
+            {% for category in categories %}
+                <a href="#" class="list-group-item">{{ category.name }}</a>
+            {% endfor %}
+
+            </div>
+
+        {% else %}
+
+            <h4>Currently no Categories</h4>
+            <p>
+                In order to submit an entry, you will need at least one category. You can create
+                the first one in the box below.
+            </p>
+
+        {% endif %}
+
+    {% endblock %}
+
+
+
+    {% block content_middle %}
+        {% for entry in entries %}
+                        <div class="col-lg-4 col-md-4 col-sm-4">
+                            <div class="thumbnail">
+                                {% if entry.image %}
+                                <img src="{{ url_for('serve_attachment', year=entry.image['year'], month=entry.image['month'], file=entry.image['file']) }}" alt=""  class="full-width">
+                                {% else %}
+                                <img src="http://placehold.it/640x300" alt=""  class="full-width">
+                                {% endif %}
+                                <div class="caption">
+                                    <h4 class="date pull-right">{{ entry.date }}</h4>
+                                    <h4><a href="{{ url_for('entry_page', entry_id=entry.id) }}">{{ entry.title }}</a></h4>
+                                    <p>
+                                        {{ entry.gist }}
+                                    </p>
+                                    <div class="category">
+                                        {% if entry.category %}
+                                        <span>{{ entry.category['name'] }}</span>
+                                        {% endif %}
+                                    </div>
+                                </div>
+
+                                <div class="author-links">
+                                    <a href="#" class="edit-btn pull-right">
+                                        <span class="glyphicon glyphicon-star"></span>
+                                            Edit
+                                        <span class="glyphicon glyphicon-star"></span>
+                                    </a>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </div>
+                        </div>
+        {% endfor %}
+    {% endblock %}

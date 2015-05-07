@@ -1,0 +1,87 @@
+/*!
+ * Start Bootstrap - Shop Homepage HTML Template (http://startbootstrap.com)
+ * Code licensed under the Apache License v2.0.
+ * For details, see http://www.apache.org/licenses/LICENSE-2.0.
+ */
+/* Color Scheme */
+.color1 {
+    background: #B2125D;
+}
+.color2 {
+    background: #FFE619;
+}
+.color3 {
+    background: #FF0077;
+}
+.color4 {
+    background: #14B2CC;
+}
+.color5 {
+    background: #099BB2;
+}
+
+
+body {
+    padding-top: 73px;
+}
+
+.full-width {
+    width: 100%;
+    min-width: 100%;
+}
+.carousel-holder {
+    margin-bottom: 30px;
+}
+
+.carousel-control,
+.item {
+    border-radius: 4px;
+}
+
+.caption {
+    height: 130px;
+    overflow: hidden;
+}
+
+.caption h4 {
+    white-space: nowrap;
+}
+
+.thumbnail {
+    padding: 0;
+}
+
+.thumbnail .caption-full {
+    padding: 9px;
+    color: #333;
+}
+
+footer {
+    margin: 32px 0;
+}
+
+.author-links {
+
+}
+
+.edit-btn:link, .edit-btn:visited, .edit-btn span {
+    display: inline-block;
+    padding: 0 .25em .125em;
+    margin-right: .15em;
+    color: #B2125D;
+}
+
+.edit-btn:hover, .edit-btn:hover span {
+    color: #099BB2;
+}
+
+
+/* Form on the New/Edit Page */
+#contentTextarea {
+    width: 100%;
+    height: 210px;
+}
+#gistTextarea {
+    width: 100%;
+    height: 80px;
+}

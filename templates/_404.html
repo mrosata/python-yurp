@@ -1,0 +1,12 @@
+{% extends "basic-layout.html" %}
+
+
+    {% block content_middle %}
+        <div class="error">
+            <h1>Whoops!</h1>
+            <p>
+                Looks like your grasp has over extended your reach... Oh well, you can always go
+                <a href="{{ url_for('main_page') }}">back to the main page.</a> Or try your luck wit sumtin' else.
+            </p>
+        </div>
+    {% endblock %}

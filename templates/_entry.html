@@ -1,0 +1,35 @@
+{% extends "basic-layout.html" %}
+
+    {% if entry %}
+        {% block content_middle %}
+            <div class="entry">
+                {% if entry.category %}
+                <div class="entry-category">Category:  {{ entry.category['name'] }}</div>
+                {% endif %}
+
+                <h1>{{ entry.title }}</h1>
+                <h4>Author: {{ entry.author }} //todo: create user table with link to author_id</h4>
+                <p class="entry entry-gist">
+                    {{ entry.gist }}
+                </p>
+
+
+                {% if entry.image %}
+
+                <hr/>
+                <div class="entry entry-image">
+                    <img src="{{ url_for('serve_attachment', year=entry.image['year'], month=entry.image['month'], file=entry.image['file']) }}" alt=""  class="full-width">
+                </div>
+
+                {% endif %}
+
+
+                <hr/>
+
+                <p class="entry entry-content">
+                    {{ entry.content }}
+                </p>
+            </div>
+
+        {% endblock %}
+    {% endif %}

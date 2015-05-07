@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Add entries into the Yurp mobile Application">
+    <meta name="author" content="Michael Rosata, Stayshine.com">
+
+    <title>{% block title %}Yurp - Dashboard Type Dealy{% endblock %}</title>
+
+    {% block mainpage_css %}
+    <link href="{{ url_for('static', filename='css/vendor/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/main.css') }}" rel="stylesheet">
+    {% endblock %}
+
+    {% block custom_css %}
+    {% endblock %}
+
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container">
+
+            <!-- Mobile -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navCollapse">
+                    <span class="sr-only">Navigation Menu Toggle</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand active" href="{{ url_for('main_page') }}">YURP!</a>
+            </div>
+
+            <!-- Navigation -->
+            <div class="collapse navbar-collapse" id="navCollapse">
+                <ul class="nav navbar-nav">
+                    <li{% if request.path.startswith('/new') %} class="active"{% endif %}>
+                        <a href="{{ url_for('new_page') }}">New</a>
+                    </li>
+                    <li{% if request.path.startswith('/archive') == True %} class="active"{% endif %}>
+                        <a href="{{ url_for('archive_page') }}">Archive</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+
+    <!-- Page Content -->
+    <div class="container">
+
+        <div class="row">
+
+            <div class="col-md-3">
+
+                {% block aside %}
+                <p class="lead">Categories</p>
+                <div class="list-group">
+                    <a href="#" class="list-group-item">Category 1</a>
+                    <a href="#" class="list-group-item">Category 2</a>
+                    <a href="#" class="list-group-item">Category 3</a>
+                </div>
+                {% endblock %}
+
+            </div>  <!-- /.col-md-3 -->
+
+            <div class="col-md-9">
+
+                <div class="row">
+
+                {% block content_top %}
+                    <div class="carousel-holder">
+
+                        <div class="col-md-12">
+                            <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+                                <ol class="carousel-indicators">
+                                    <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+                                    <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+                                    <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+                                </ol>
+                                <div class="carousel-inner">
+                                    <div class="item active">
+                                        <img class="full-width" src="http://placehold.it/800x300/ff0077/efefef&text=Yurp+Application" alt="">
+                                    </div>
+                                    <div class="item">
+                                        <img class="full-width" src="http://placehold.it/800x300/14B2CC/efefef&text=Words+and+Stuffings" alt="">
+                                    </div>
+                                    <div class="item">
+                                        <img class="full-width" src="http://placehold.it/800x300/FFE619/4d4d4d&text={+Pizza+Pizza+}" alt="">
+                                    </div>
+                                </div>
+                                <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
+                                    <span class="glyphicon glyphicon-chevron-left"></span>
+                                </a>
+                                <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
+                                    <span class="glyphicon glyphicon-chevron-right"></span>
+                                </a>
+                            </div>
+                        </div>
+
+                    </div>
+                {% endblock %}
+
+                </div>
+
+
+                <div class="row">
+                {% block content_middle %}
+                    <div class="col-sm-12">
+                        <h2>Guru</h2>
+                        <p>
+                            Welcome to Guru, a minimalistic approach to blogging. How minimal? Take your blog, and remove the entire
+                            frontend. That is the goal here, to publish nothing on location, just provide a means to creating entries and
+                            responding to API calls from whitelisted domains. You may own and operate an application of which makes requests
+                            to your personal Guru API, but the idea behind Guru is to allow publishing on many platforms. Law of Seperation,
+                            many people try to  write on their blog and then publish the content across their own site as well as social platforms
+                            such as Twitter, or Facebook, and that's fine... but why tie your data to something you may not use in 12 months.
+                            Guru is where you write, your data is stored locally or to the cloud, and then published on any platform.
+                            The graphical interface is purely to support authors and developers in building a RESTFul web API using
+                            JSON to answer requests for content. This is beta, many features are either not implemented or not yet
+                            dreamed up. Flasq2json is written in Python using Flask as a WSGI and SQLAlchemy as an SQLite ORM to manage
+                            data. The "website" is designed using Twitter Bootstrap
+                        </p>
+                    </div>
+                {% endblock %}
+                </div>
+
+                {% block content_bottom %}
+                {% endblock %}
+
+            </div> <!-- /.col-md-9 -->
+
+        </div> <!-- /.row-->
+
+    </div>  <!-- /.container -->
+
+    <div class="container">
+
+        <hr>
+
+        <footer>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="well well-sm"><p class="pull-right">Copyright &copy; Stayshine Web Development 2015</p><div class="clearfix"</div></div>
+                </div>
+            </div>
+        </footer>  <!-- /footer -->
+
+    </div>  <!-- /.container -->
+
+    <!-- Modals for flash messaging -->
+    {% with messages = get_flashed_messages() %}
+
+        {% if messages %}
+
+    <div class="modal fade" id="flashedMessages" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <a class="close" data-dismiss="modal">×</a>
+                    <h3>Flash Message!</h3>
+                </div>
+                <div class="modal-body">
+
+                    {% for message in messages %}
+
+                    <p>
+                        {{ message }}
+                    </p>
+
+                    {% endfor %}
+
+                </div>
+                <div class="modal-footer">
+
+                    <p>
+                        <a href="#" class="btn" data-dismiss="modal">Close</a>
+                    </p>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+        {% endif %}
+    {% endwith %}
+
+    <!-- jQuery + Bootstrap JS -->
+    <script src="{{ url_for('static', filename='js/vendor/jquery.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/vendor/bootstrap.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+
+</body>
+</html>

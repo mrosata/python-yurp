@@ -1,0 +1,152 @@
+{% extends "basic-layout.html" %}
+
+
+    {% block aside %}
+
+            <!-- #newLabelName -->
+            <form class="form" id="createCategoryForm" method="POST" action="{{ url_for('create_category') }}">
+                <p>
+                    Create a category:
+                </p>
+                <div class="form-group">
+                    <input type="text" name="newCategory" id="newCategory" class="form-control" placeholder="New Category Name"/>
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-danger">Add Category</button>
+                </div>
+            </form>
+
+        {% if categories %}
+
+            <p class="lead">Categories</p>
+            <div class="list-group">
+
+            {% for category in categories %}
+                <a href="#" class="list-group-item">{{ category.name }}</a>
+            {% endfor %}
+
+            </div>
+
+        {% else %}
+
+            <h4>Currently no Categories</h4>
+            <p>
+                In order to submit an entry, you will need at least one category. You can create
+                the first one in the box below.
+            </p>
+
+        {% endif %}
+
+    {% endblock %}
+
+
+
+    {% block content_top %}
+
+        <div class="col-md-12">
+            <div class="jumbotron">
+                <h1>New Entry</h1>
+                <p>Create a new entry for the database. If you need help, click on the tooltips next to each form element</p>
+            </div>
+        </div>
+
+    {% endblock %}
+
+
+
+    {% block content_middle %}
+        <div class="col-md-12 col-lg-10">
+            <form action="{{ url_for('new_page') }}" method="POST" class="form form-horizontal" name="newEntry" id="newEntry" enctype="multipart/form-data">
+
+                <fieldset>
+
+                    <legend>Create New Entry</legend>
+
+                    <!-- Temporary until I figure this out -->
+                    <input id="author" name="author" type="hidden" value="1"/>
+
+                    <!-- #titleInput-->
+                    <div class="form-group">
+                        <label class="col-md-2 control-label" for="title">Title</label>
+                        <div class="col-md-6">
+                            <input id="title" name="title" type="text" placeholder="Title for Entry" class="form-control input-md" required="">
+                        </div>
+                    </div>
+
+
+                    <!-- #contentTextarea -->
+                    <div class="form-group">
+                        <label class="col-md-2 control-label" for="content">Content</label>
+                        <div class="col-md-10">
+                            <textarea class="form-control" id="content" name="content">Main content of the entry goes here...</textarea>
+                        </div>
+                    </div>
+
+
+                    <!-- #gistTextarea -->
+                    <div class="form-group">
+                        <label class="col-md-2 control-label" for="gist">Gist</label>
+                        <div class="col-md-10">
+                            <textarea class="form-control" id="gist" name="gist"></textarea>
+                        </div>
+                    </div>
+
+
+                    <!-- #categorySelect -->
+                    <div class="form-group">
+                        <label class="col-md-2 control-label" for="category">Category</label>
+                        <div class="col-md-6">
+                            <select id="category" name="category" class="form-control">
+                                {% if categories %}
+                                    {% for category in categories %}
+                                        <option value="{{ category.id }}">{{ category.name }}</option>
+                                    {% endfor %}
+                                {% endif %}
+                            </select>
+                        </div>
+                    </div>
+
+
+                    <!-- #imageUpload -->
+                    <div class="form-group">
+                        <label class="col-md-2 control-label" for="image">Image</label>
+                        <div class="col-md-6">
+                            <input id="image" name="image" class="input-file" type="file">
+                        </div>
+                    </div>
+
+
+                    <!-- #submitBtn -->
+                    <div class="form-group">
+                        <label class="col-md-2 control-label" for="submitBtn">Finished?</label>
+                        <div class="col-md-6">
+                            <button id="submitBtn" name="submitBtn" class="btn btn-success">Sumbit</button>
+                        </div>
+                    </div>
+
+                    <!-- #publicity -->
+                    <div class="form-group">
+                        <label class="col-md-2 control-label" for="publicity">Publicity</label>
+                        <div class="col-md-4">
+                            <div class="radio">
+                                <label for="publicity-0">
+                                <input type="radio" name="publicity" id="publicity-0" value="1" checked="checked">
+                                    Public
+                                </label>
+                            </div>
+                            <div class="radio">
+                                <label for="publicity-1">
+                                    <input type="radio" name="publicity" id="publicity-1" value="0">
+                                    Private
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                </fieldset>
+
+            </form>
+
+        </div>
+    {% endblock %}
