@@ -144,10 +144,12 @@ def get_entries(limit=12):
     return entries
 
 
-if __name__ == '__main__':
-    app.secret_key = 'ZaR%tC3SzAw48vm2./2!'
-    # Make sure to keep the uploads directory name relative
-    app.config['UPLOAD_FOLDER'] = 'uploads'
-    app.debug = True
-    app.run()
+running_on_python_anywhere = True
 
+# Make sure to keep the uploads directory name relative
+app.config['UPLOAD_FOLDER'] = 'uploads'
+app.secret_key = 'ZaR%tC3SzAw48vm2./2!'
+
+if not running_on_python_anywhere and __name__ == '__main__':
+        app.debug = True
+        app.run()
