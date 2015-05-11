@@ -11,6 +11,7 @@ class Entry(Base):
     __tablename__ = 'entries'
     id = Column(Integer, autoincrement=True, primary_key=True)
     inserted = Column(DateTime, default=datetime.utcnow())
+    last_edit = Column(DateTime, default=datetime.utcnow())
     publicity = Column(String(12), nullable=False)
     author = Column(Integer, nullable=False)
     category = Column(Integer, default=0)

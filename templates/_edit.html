@@ -45,9 +45,12 @@
     {% block content_top %}
 
         <div class="col-md-12">
-            <div class="jumbotron">
-                <h1>New Entry</h1>
-                <p>Create a new entry for the database. If you need help, click on the tooltips next to each form element</p>
+            <div class="jumbotron entry-bg">
+                <h1>Edit Entry</h1>
+                <p>
+                    Edit the entry: {{ entry.title }}
+                    Originally: {{ entry.inserted }}
+                </p>
             </div>
         </div>
 
@@ -57,11 +60,11 @@
 
     {% block content_middle %}
         <div class="col-md-12 col-lg-10">
-            <form action="{{ url_for('new_page') }}" method="POST" class="form form-horizontal" name="newEntry" id="newEntry" enctype="multipart/form-data">
+            <form action="{{ url_for('edit_page', entry_id=entry.id) }}" method="POST" class="form form-horizontal" name="newEntry" id="newEntry" enctype="multipart/form-data">
 
                 <fieldset>
 
-                    <legend>Create New Entry</legend>
+                    <legend>Edit: {{ entry.title }}</legend>
 
                     <!-- Temporary until I figure this out -->
                     <input id="author" name="author" type="hidden" value="1"/>
@@ -70,7 +73,7 @@
                     <div class="form-group">
                         <label class="col-md-2 control-label" for="title">Title</label>
                         <div class="col-md-6">
-                            <input id="title" name="title" type="text" placeholder="Title for Entry" class="form-control input-md" required="">
+                            <input id="title" name="title" type="text" placeholder="Title for Entry" class="form-control input-md" value="{{ entry.title }}" required="">
                         </div>
                     </div>
 
@@ -79,7 +82,7 @@
                     <div class="form-group">
                         <label class="col-md-2 control-label" for="content">Content</label>
                         <div class="col-md-10">
-                            <textarea class="form-control" id="content" name="content"></textarea>
+                            <textarea class="form-control" id="content" name="content" required="">{{ entry.content }}</textarea>
                         </div>
                     </div>
 
@@ -88,7 +91,7 @@
                     <div class="form-group">
                         <label class="col-md-2 control-label" for="gist">Gist</label>
                         <div class="col-md-10">
-                            <textarea class="form-control" id="gist" name="gist"></textarea>
+                            <textarea class="form-control" id="gist" name="gist">{{ entry.gist }}</textarea>
                         </div>
                     </div>
 
@@ -100,7 +103,11 @@
                             <select id="category" name="category" class="form-control">
                                 {% if categories %}
                                     {% for category in categories %}
+                                        {% if entry.category['id'] == category.id %}
+                                        <option value="{{ category.id }}" selected="true">{{ category.name }}</option>
+                                        {% else %}
                                         <option value="{{ category.id }}">{{ category.name }}</option>
+                                        {% endif %}
                                     {% endfor %}
                                 {% endif %}
                             </select>
@@ -114,6 +121,12 @@
                         <div class="col-md-6">
                             <input id="image" name="image" class="input-file" type="file">
                         </div>
+                        {% if entry.image %}
+                        <p>
+                            Current Image:
+                            <a class="yurp-dynamic-img" target="_blank" href="{{ url_for('serve_attachment', year=entry.image['year'], month=entry.image['month'], file=entry.image['file']) }}">{{ entry.image['file'] }}</a>
+                        </p>
+                        {% endif %}
                     </div>
 
 
@@ -121,7 +134,7 @@
                     <div class="form-group">
                         <label class="col-md-2 control-label" for="submitBtn">Finished?</label>
                         <div class="col-md-6">
-                            <button id="submitBtn" name="submitBtn" class="btn btn-success">Sumbit</button>
+                            <button id="submitBtn" name="submitBtn" class="btn btn-success">Make Changes!</button>
                         </div>
                     </div>
 

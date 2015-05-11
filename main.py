@@ -1,8 +1,9 @@
 import os
 import pprint
+from datetime import datetime
 from flask import Flask, render_template, url_for, request,\
     redirect, flash, send_from_directory, send_file
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, update
 from sqlalchemy.orm import sessionmaker
 
 from database_setup import Entry, Label, Day, Attachment, CategoryLink, Base
@@ -88,6 +89,40 @@ def new_page():
     return render_template('_new.html', categories=categories)
 
 
+@app.route('/edit/entry/<int:entry_id>/', methods=['GET', 'POST'])
+def edit_page(entry_id):
+    if request.method == 'POST':
+        # Check that we have all the required info
+        for val in ['author', 'title', 'content', 'category', 'publicity']:
+            # Make sure that the required fields have been filled out.
+            if (not (val in request.form)) or request.form[val] == '':
+                flash('Form was not filled out properly')
+                return render_template('_main.html')
+
+        author = int(request.form['author'])
+        title = request.form['title']
+        content = request.form['content']
+        gist = request.form['gist']
+        category = int(request.form['category'])
+        publicity = request.form['publicity']
+        save_label_link(entry_id, category)
+        update_entry(entry_id, author, title, content,
+                     gist, category, publicity)
+        # Check if there was an image sent with the entry form as well.
+        upload_handler = attach(app, request)
+        saved_file = upload_handler.attach('image')
+        if saved_file:
+            update_attachment(saved_file, entry_id, 'image')
+        flash('Edited the Entry')
+
+    # Regardless of request.method, we will render the edit entry page
+    categories = session.query(Label).filter_by(type='category').all()
+    # Need to get the entry for this page
+    entry = get_entry(entry_id)
+    return render_template('_edit.html',
+                           categories=categories, entry=entry)
+
+
 @app.route('/create/label/category', methods=['POST'])
 def create_category():
     if request.form['newCategory'] and request.form['newCategory'] is not '':
@@ -115,11 +150,30 @@ def insert_entry(author, title, content, gist, category, publicity):
     return entry.id
 
 
+def update_entry(id, author, title, content, gist, category, publicity):
+    the_time = datetime.utcnow()
+    entry = session.query(Entry).filter_by(id=id).\
+        update({Entry.author: author, Entry.title: title, Entry.gist: gist,
+               Entry.content: content, Entry.category: category,
+               Entry.publicity: publicity, Entry.last_edit: the_time})
+    session.commit()
+    return entry
+
+
 def insert_attachment(src, entry_id, _type):
     attachment = Attachment(src=src, entry_id=entry_id, type=_type)
     session.add(attachment)
     session.commit()
     return attachment.id
+
+
+# TODO: Delete the old uploaded file
+def update_attachment(src, entry_id, _type):
+    attachment = session.query(Attachment).filter_by(entry_id=entry_id).\
+        update({Attachment.src: src, Attachment.entry_id: entry_id,
+                Attachment.type: _type})
+    session.commit()
+    return attachment
 
 
 def delete_entry(id):
@@ -144,12 +198,19 @@ def get_entries(limit=12):
     return entries
 
 
-running_on_python_anywhere = True
+def get_entry(id):
+    id = int(id)
+    entry = session.query(Entry).filter_by(id=id).first()
+    entry = Parsed_Entry(entry, session.query)
+    return entry
+
+
+running_on_python_anywhere = False
 
 # Make sure to keep the uploads directory name relative
 app.config['UPLOAD_FOLDER'] = 'uploads'
 app.secret_key = 'ZaR%tC3SzAw48vm2./2!'
 
 if not running_on_python_anywhere and __name__ == '__main__':
-        app.debug = True
-        app.run()
+    app.debug = True
+    app.run()

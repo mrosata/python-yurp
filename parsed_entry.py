@@ -2,6 +2,8 @@
 __author__ = 'Michael Rosata mrosata1984@gmail.com'
 __package__ = ''
 
+from flask import Markup
+
 from database_setup import Label, Attachment
 
 
@@ -12,10 +14,11 @@ class Parsed_Entry:
         self.query = query
 
         self.id = db_entry.id
-        self.title = db_entry.title
-        self.autho = db_entry.author
-        self.content = db_entry.content
+        self.title = Markup(db_entry.title)
+        self.author = db_entry.author
+        self.content = Markup(db_entry.content)
         self.gist = db_entry.gist
+        self.inserted = db_entry.inserted
 
         self.image = self.check_attachments()
         self.category = self.check_label('category')

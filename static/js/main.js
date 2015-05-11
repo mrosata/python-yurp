@@ -40,8 +40,7 @@ jQuery(function($){
     
     /***  Placeholders for the TextInputs  */
     var placeholderText = {
-        'gist' : "Summary, idea, short, think Tweet",
-        'content' : "Main content of the entry goes here..."
+        'gist' : "Summary, idea, short, think Tweet"
     }
 
     // Check for textareas and fill with initial content if empty
@@ -84,4 +83,33 @@ jQuery(function($){
 
     // Trigger a blur to fill in initial state of the textareas
     $('textarea').trigger('blur.yurp');
+
+    // Also, setup the CKEditor
+    window.CKEDITOR.replace( 'content' );
+
+
+    /**
+     *   Dynamic Image Check and preview on hover
+     */
+
+     var dynImages = $('.yurp-dynamic-img');
+     if (dynImages.length) {
+        dynImages.each(function (ind, elm) {
+            var img = $(this);
+            var src = img.attr('href');
+            img.wrap("<span class='yurp-preview' style='position:relative'></span>");
+            var wrap = img.parent();
+            var preview = $("<img src='" + src + "' style='z-index:999999;max-height:320px;border:1px solid #444;max-width:450px;position:absolute:top:150px;left:-60px;display:none'/>");
+            wrap.append(preview);
+
+            img.on('mouseenter', function (e) {
+                preview.css({'position' :'absolute', 'display': 'block'});
+                img.on('mouseleave', function (e) {
+                    preview.css('display', 'none');
+                });
+            });
+
+        });
+     }
 });
+
