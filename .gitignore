@@ -1,1 +1,7 @@
 # Created by .ignore support plugin (hsz.mobi)
+
+# The uploads folder
+uploads
+
+# The Sqlite database
+yurp.application.db
