@@ -66,13 +66,45 @@
 
             <div class="col-md-3">
 
-                {% block aside %}
+                    {% block aside %}
+
+                        {% if categories %}
+
                 <p class="lead">Categories</p>
                 <div class="list-group">
-                    <a href="#" class="list-group-item">Category 1</a>
-                    <a href="#" class="list-group-item">Category 2</a>
-                    <a href="#" class="list-group-item">Category 3</a>
+
+                {% for category in categories %}
+                    <a href="#" class="list-group-item">{{ category.name }}</a>
+                {% endfor %}
+
                 </div>
+
+                        {% else %}
+
+                <h4>Currently ain't no Categories</h4>
+                <p>
+                    I'm guessin yer' new round these parts. That's alright, let me give you the run down. This is your console, it's just for you, and no one else. Even though it looks pretty,
+                    it's not something you want to be showin off just yet. Anyone who comes here, can edit yer materials. To get started, just click on the
+                    <a herf="{{ url_for('new_page') }}">New</a> button above and start typing entries. Since you'll need categories to store your entries under, why don't you start right
+                    here by typing a category into the box
+                </p>
+
+                <!-- #newLabelName -->
+                <form class="form" id="createCategoryForm" method="POST" action="{{ url_for('create_category') }}">
+                    <p>
+                        Create a category:
+                    </p>
+                    <div class="form-group">
+                        <input type="text" name="newCategory" id="newCategory" class="form-control" placeholder="New Category Name"/>
+                    </div>
+
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-danger">Add Category</button>
+                    </div>
+                </form>
+
+                        {% endif %}
+
                 {% endblock %}
 
             </div>  <!-- /.col-md-3 -->
@@ -125,14 +157,10 @@
                             Welcome to Guru, a minimalistic approach to blogging. How minimal? Take your blog, and remove the entire
                             frontend. That is the goal here, to publish nothing on location, just provide a means to creating entries and
                             responding to API calls from whitelisted domains. You may own and operate an application of which makes requests
-                            to your personal Guru API, but the idea behind Guru is to allow publishing on many platforms. Law of Seperation,
-                            many people try to  write on their blog and then publish the content across their own site as well as social platforms
-                            such as Twitter, or Facebook, and that's fine... but why tie your data to something you may not use in 12 months.
-                            Guru is where you write, your data is stored locally or to the cloud, and then published on any platform.
-                            The graphical interface is purely to support authors and developers in building a RESTFul web API using
-                            JSON to answer requests for content. This is beta, many features are either not implemented or not yet
-                            dreamed up. Flasq2json is written in Python using Flask as a WSGI and SQLAlchemy as an SQLite ORM to manage
-                            data. The "website" is designed using Twitter Bootstrap
+                            to your personal Guru API, but the idea behind Guru is to allow publishing on many platforms from one safe and
+                            centralized location. Since I'm still in the process of creating Guru, take caution, and report any major errors
+                            directly to me. If you don't know who me is, then I don't know how you got here, please don't touch anything on
+                            your way out.
                         </p>
                     </div>
                 {% endblock %}

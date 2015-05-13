@@ -23,7 +23,9 @@ session = DBSession()
 @app.route('/')
 def main_page():
     entries = get_entries()
-    return render_template('_main.html', entries=entries)
+    categories = session.query(Label).filter_by(type='category').all()
+    return render_template('_main.html',
+                           entries=entries, categories=categories)
 
 
 @app.route('/archive/')
